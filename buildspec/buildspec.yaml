@@ -1,0 +1,75 @@
+version: 0.2
+env:
+  shell: bash
+
+phases:
+
+  install:
+    runtime-versions:
+      python: 3.9
+      nodejs: 14
+    commands:
+      - echo "Processing microservice - $MICROSERVICE_NAME"
+      - echo "checking to see if application exists"
+      # - # check if production version exist
+      # - # if not exist then we need to build the application
+      # - echo "Installing Required Modules, for version $LAMBDA_VERSION_NUMBER"
+      - cd ${CODEBUILD_SRC_DIR}/lambdas
+      - pip install --upgrade pip
+      - pip install pipenv
+      - pipenv install --dev
+      # - cd ${CODEBUILD_SRC_DIR}/lambdas/getaccount
+      # - yarn install --frozen-lockfile  
+
+  pre_build:
+    commands:
+      - echo "Pre build commands like testing, compliance validate etc"
+      # - |
+      #   if [ "$VERSION_EXIST" = false ] || [ "$DEV_APP_EXIST" = false ]; then
+      #     cd ${CODEBUILD_SRC_DIR}/${MODULE}/packages/${MICROSERVICE_NAME}
+      #     set -e
+      #     yarn test
+      #     yarn lint.ci
+      #     pipenv run samvalidate
+      #     pipenv run lint_cfn
+      #     set +e
+      #   fi
+
+  build:
+    commands:
+      - echo "These are build commands like sam build, sam package etc "
+        #   yarn build
+        #   echo "Remove dev dependencies"
+        #   rm -rf node_modules
+        #   rm -rf ../../../node_modules
+        #   yarn --production --frozen-lockfile
+        #   echo "Copy Node_Modules to lambda package"
+        #   cp -R ../../../node_modules dist/node_modules
+        #   rm -rf dist/node_modules/@cus-paycol-debt # removing cus-paycol-packages as they are not needed for the lambda
+        #   cp README.md dist/README.md
+        #   cp package.json dist/package.json
+        #   echo "packaging template.yaml file"
+        #   if [ "$MICROSERVICE_NAME" == "integrations" ]; then
+        #     sam build SambaLayer
+        #   fi
+        #   sam package --s3-bucket ${ARTIFACT_BUCKET} --template-file template.yaml --output-template-file packaged-template.yml --s3-prefix ${MICROSERVICE_NAME}
+        # fi
+
+  post_build:
+    commands:
+      - echo "this is for post build. Here it will be depoy"
+      # - |
+      #   if [ "$VERSION_EXIST" = false ] || [ "$DEV_APP_EXIST" = false ]; then
+      #     echo "setting the principals value"
+      #     if [ "$BRANCH_NAME" = "main" ]; then
+      #       SHARE_LOCATION="047786439410,128529577852,210730755505"
+      #     else
+      #       SHARE_LOCATION="047786439410"
+      #     fi
+      #     echo "Publishing Lambda Package Template"
+      #     sam publish --template packaged-template.yml
+
+
+artifacts:
+  files:
+    - "**/*"
