@@ -14,7 +14,7 @@ phases:
       # - # check if production version exist
       # - # if not exist then we need to build the application
       # - echo "Installing Required Modules, for version $LAMBDA_VERSION_NUMBER"
-      - cd ${CODEBUILD_SRC_DIR}/lambdas
+      - cd ${CODEBUILD_SRC_DIR}
       - pip install --upgrade pip
       - pip install pipenv
       - pipenv install --dev
@@ -49,25 +49,16 @@ phases:
         #   cp README.md dist/README.md
         #   cp package.json dist/package.json
         #   echo "packaging template.yaml file"
-        #   if [ "$MICROSERVICE_NAME" == "integrations" ]; then
-        #     sam build SambaLayer
-        #   fi
-        #   sam package --s3-bucket ${ARTIFACT_BUCKET} --template-file template.yaml --output-template-file packaged-template.yml --s3-prefix ${MICROSERVICE_NAME}
+        -  cd ${CODEBUILD_SRC_DIR}
+        -  sam package --s3-bucket hari-mwdet-repo --template-file template.yaml --output-template-file packaged-template.yml --s3-prefix getaccount
         # fi
 
   post_build:
     commands:
-      - echo "this is for post build. Here it will be depoy"
-      # - |
-      #   if [ "$VERSION_EXIST" = false ] || [ "$DEV_APP_EXIST" = false ]; then
-      #     echo "setting the principals value"
-      #     if [ "$BRANCH_NAME" = "main" ]; then
-      #       SHARE_LOCATION="047786439410,128529577852,210730755505"
-      #     else
-      #       SHARE_LOCATION="047786439410"
-      #     fi
-      #     echo "Publishing Lambda Package Template"
-      #     sam publish --template packaged-template.yml
+      - echo "this is for post build. Here SAM will be depoyed"
+
+      #     echo "Deploying the SAM Template"
+      - sam deploy --template-file packaged-template.yml --stack-name hari-getaccount --capabilities CAPABILITY_IAM 
 
 
 artifacts:
