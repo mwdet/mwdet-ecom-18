@@ -18,11 +18,13 @@ phases:
       - pip install --upgrade pip
       - pip install pipenv
       - pipenv install --dev
+      - cd ${CODEBUILD_SRC_DIR}/lambdas/getaccount
       # - cd ${CODEBUILD_SRC_DIR}/lambdas/getaccount
-      # - yarn install --frozen-lockfile  
+      - yarn install 
 
   pre_build:
     commands:
+      - echo "start of pre build"
       - echo "Pre build commands like testing, compliance validate etc"
       # - |
       #   if [ "$VERSION_EXIST" = false ] || [ "$DEV_APP_EXIST" = false ]; then
