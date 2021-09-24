@@ -49,8 +49,8 @@ phases:
         #   cp README.md dist/README.md
         #   cp package.json dist/package.json
         #   echo "packaging template.yaml file"
-        -  cd ${CODEBUILD_SRC_DIR}
-        -  sam package --s3-bucket hari-mwdet-repo --template-file template.yaml --output-template-file packaged-template.yml --s3-prefix getaccount
+      - cd ${CODEBUILD_SRC_DIR}
+      - sam package --s3-bucket hari-mwdet-repo --template-file template.yaml --output-template-file packaged-template.yml --s3-prefix getaccount
         # fi
 
   post_build:
