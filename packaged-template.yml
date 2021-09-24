@@ -1,41 +1,65 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: Invoke State Machine Lambda
+Description: This is the AWS Lambda functions
 Parameters:
-  UniqueName:
-    Description: A unique prefix given to all of the AWS resources
+  Environment:
     Type: String
+    Description: This key is used for environment
+    Default: dev
+  UniqueName:
+    Type: String
+    Description: This is for the new file
     Default: hari
+Mappings:
+  EnvironmentMap:
+    dev:
+      tableName: megha_customers
 Resources:
-  RidesTable:
-    Type: AWS::Serverless::SimpleTable
+  customerDynamoDBTable:
+    Type: AWS::DynamoDB::Table
     Properties:
+      AttributeDefinitions:
+      - AttributeName: id
+        AttributeType: S
+      KeySchema:
+      - AttributeName: id
+        KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: '1'
+        WriteCapacityUnits: '1'
       TableName:
-        Fn::Sub: ${UniqueName}-http-crud-tutorial-items
-      PrimaryKey:
-        Name: id
-        Type: String
-  LambdaFunction:
+        Fn::Sub: ${UniqueName}-${Environment}-customers
+  createCustomerLambdaFunction:
     Type: AWS::Serverless::Function
+    DependsOn: customerDynamoDBTable
     Properties:
-      FunctionName:
-        Fn::Sub: ${UniqueName}-http-crud-tutorial-function
       Handler: index.handler
-      Runtime: nodejs14.x
       CodeUri: s3://hari-mwdet-repo/getaccount/0a76035daba21dce7eed1eb5bf2d6a57
-      MemorySize: 256
-      Timeout: 120
+      FunctionName:
+        Fn::Sub: ${UniqueName}-${Environment}-create-customer
+      Description: create customer data
+      Runtime: nodejs14.x
+      MemorySize: 128
+      Timeout: 300
+      Environment:
+        Variables:
+          TABLE_NAME:
+            Ref: customerDynamoDBTable
       Policies:
       - AWSLambdaExecute
-      - AWSStepFunctionsFullAccess
-      Events:
-        WildRydes1:
-          Type: Api
-          Properties:
-            Path: /items
-            Method: get
-        WildRydes2:
-          Type: Api
-          Properties:
-            Path: /items
-            Method: put
+      - Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Action:
+          - dynamodb:*
+          Resource:
+          - Fn::GetAtt:
+            - customerDynamoDBTable
+            - Arn
+  createCustomerLambdaPermissionForAPI:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Ref: createCustomerLambdaFunction
+      Principal: apigateway.amazonaws.com
