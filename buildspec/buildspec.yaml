@@ -9,7 +9,7 @@ phases:
       python: 3.9
       nodejs: 14
     commands:
-      - echo "Processing microservice - $MICROSERVICE_NAME"
+      - echo "start of code build"
       - echo "checking to see if application exists"
       # - # check if production version exist
       # - # if not exist then we need to build the application
