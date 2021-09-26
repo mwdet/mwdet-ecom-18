@@ -12,6 +12,7 @@ aws-sam-cli = "~=1.22.0"
 [requires]
 python_version = "3.9"
 
+
 [scripts]
 audit = "pipenv check"
 samvalidate = "pipenv run sam validate --template template.yaml"
