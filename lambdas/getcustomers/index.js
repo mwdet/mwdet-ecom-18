@@ -5,6 +5,7 @@ const docclient = new AWS.DynamoDB.DocumentClient();
 
  
    exports.handler = async (event,context) => {
+     console.log("test")
      console.log("Inside handler")
     let body;
   let statusCode = 200;
