@@ -6,19 +6,15 @@ Parameters:
 
   Environment:
     Type: String
-    Description: This key is used for environment
+    Description: This key is used for environment. It will be used in one of the prefix for  resource names. This also can be passed thru sam deploy
     Default: dev
 
   UniqueName: 
     Type: String 
-    Description: This is for the new file 
-    Default: hari
+    Description: Prefix for any resource passed from sam deploy. It will be in the format of mwdet-ecom-x
+    Default: mwdet-ecom-18
 
 
-Mappings:
-  EnvironmentMap:
-    dev:
-      tableName: megha_customers
 
 
 Resources:

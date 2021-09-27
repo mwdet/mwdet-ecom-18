@@ -61,7 +61,7 @@ phases:
       - echo "this is for post build. Here SAM will be depoyed"
 
       #     echo "Deploying the SAM Template"
-      - sam deploy --template-file packaged-template.yml --stack-name ${RESOURCE_PREFIX}-getaccount --capabilities CAPABILITY_IAM --no-fail-on-empty-changeset
+      - sam deploy --template-file packaged-template.yml --stack-name ${RESOURCE_PREFIX}-getaccount --capabilities CAPABILITY_IAM --no-fail-on-empty-changeset --parameter-overrides Environment=dev UniqueName=${RESOURCE_PREFIX}
 
 
 artifacts:
