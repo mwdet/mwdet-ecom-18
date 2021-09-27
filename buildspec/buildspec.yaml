@@ -18,7 +18,7 @@ phases:
       - pip install --upgrade pip
       - pip install pipenv
       - pipenv install --dev
-      - cd ${CODEBUILD_SRC_DIR}/lambdas/getaccount
+      - cd ${CODEBUILD_SRC_DIR}/lambdas/createcustomer
       # - cd ${CODEBUILD_SRC_DIR}/lambdas/getaccount
       - yarn install 
 
@@ -62,7 +62,7 @@ phases:
       - echo "this is for post build. Here SAM will be depoyed"
 
       #     echo "Deploying the SAM Template"
-      - sam deploy --template-file packaged-template.yml --stack-name ${RESOURCE_PREFIX}-getaccount --capabilities CAPABILITY_IAM --no-fail-on-empty-changeset --parameter-overrides Environment=dev UniqueName=${RESOURCE_PREFIX}
+      - sam deploy --template-file packaged-template.yml --stack-name ${RESOURCE_PREFIX}-createcustomer --capabilities CAPABILITY_IAM --no-fail-on-empty-changeset --parameter-overrides Environment=dev UniqueName=${RESOURCE_PREFIX}
 
 
 artifacts:
