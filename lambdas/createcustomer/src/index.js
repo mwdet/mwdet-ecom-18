@@ -6,8 +6,11 @@ const docclient = new AWS.DynamoDB.DocumentClient();
  
    exports.handler = async (event,context) => {
      console.log("Inside handler")
-    let body;
+     console.log(event)
+    const data = JSON.parse(event.body);
+    console.log(data)
   let statusCode = 200;
+  var response ;
   const TableName=process.env.TABLE_NAME;
   const headers = {
     "Content-Type": "application/json"
@@ -18,22 +21,21 @@ const docclient = new AWS.DynamoDB.DocumentClient();
         await docclient.put({
             TableName: TableName,
             Item: {
-              id: event.body.id,
-              price: event.body.price,
-              name: event.body.name
+              id: data.body.id,
+              name: data.body.name,
+              email: data.body.email
             }
           })
           .promise();
-        body = `Put item ${event.body.id}`;
+        response = `Put item ${data.body.id}`;
     }
     catch(err) {
     statusCode = 400;
-    body = err.message;
+    response = err.message;
       
     }
    return {
-    statusCode,
-    body,
-    headers
+    statusCode : statusCode
+
   };
 };

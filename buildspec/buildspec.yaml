@@ -52,8 +52,9 @@ phases:
         #   cp package.json dist/package.json
         #   echo "packaging template.yaml file"
       - cd ${CODEBUILD_SRC_DIR}
+      - aws s3 cp swagger.yaml s3://${RESOURCE_PREFIX}-pipeline-artifacts/
       # - sam package --s3-bucket hari-mwdet-repo --template-file template.yaml --output-template-file packaged-template.yml --s3-prefix getaccount
-      - sam package --s3-bucket ${RESOURCE_PREFIX}-pipeline-artifacts --template-file template.yaml --output-template-file packaged-template.yml --s3-prefix getaccount
+      - sam package --s3-bucket ${RESOURCE_PREFIX}-pipeline-artifacts --template-file template.yaml --output-template-file packaged-template.yml --s3-prefix createcustomer
         # fi
 
   post_build:
