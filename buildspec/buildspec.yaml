@@ -52,7 +52,8 @@ phases:
         #   cp package.json dist/package.json
         #   echo "packaging template.yaml file"
       - cd ${CODEBUILD_SRC_DIR}
-      - sam package --s3-bucket hari-mwdet-repo --template-file template.yaml --output-template-file packaged-template.yml --s3-prefix getaccount
+      # - sam package --s3-bucket hari-mwdet-repo --template-file template.yaml --output-template-file packaged-template.yml --s3-prefix getaccount
+      - sam package --s3-bucket ${RESOURCE_PREFIX}-pipeline-artifacts --template-file template.yaml --output-template-file packaged-template.yml --s3-prefix getaccount
         # fi
 
   post_build:
@@ -60,7 +61,7 @@ phases:
       - echo "this is for post build. Here SAM will be depoyed"
 
       #     echo "Deploying the SAM Template"
-      - sam deploy --template-file packaged-template.yml --stack-name hari-getaccount --capabilities CAPABILITY_IAM --no-fail-on-empty-changeset
+      - sam deploy --template-file packaged-template.yml --stack-name ${RESOURCE_PREFIX}-getaccount --capabilities CAPABILITY_IAM --no-fail-on-empty-changeset
 
 
 artifacts:
