@@ -3,17 +3,14 @@ Transform: AWS::Serverless-2016-10-31
 Description: This is the AWS Lambda functions
 Parameters:
 
-
   Environment:
     Type: String
     Description: This key is used for environment. It will be used in one of the prefix for  resource names. This also can be passed thru sam deploy
-    Default: dev
+
 
   UniqueName: 
     Type: String 
     Description: Prefix for any resource passed from sam deploy. It will be in the format of mwdet-ecom-x
-    Default: mwdet-ecom-18
-
 
 
 
@@ -28,9 +25,7 @@ Resources:
       KeySchema:
       - AttributeName: id
         KeyType: HASH
-      ProvisionedThroughput:
-        ReadCapacityUnits: '1'
-        WriteCapacityUnits: '1'
+      BillingMode : PAY_PER_REQUEST
       TableName: !Sub ${UniqueName}-${Environment}-customers
 
 
@@ -39,7 +34,7 @@ Resources:
     DependsOn: customerDynamoDBTable
     Properties:
       Handler: index.handler
-      CodeUri: "./lambdas/getaccount/src"
+      CodeUri: "./lambdas/createcustomer/src"
       FunctionName: !Sub ${UniqueName}-${Environment}-create-customer
       Description: create customer data 
       Runtime: nodejs14.x
@@ -57,14 +52,28 @@ Resources:
                 - dynamodb:*
               Resource:
                 - !GetAtt customerDynamoDBTable.Arn
+      Events: 
+        Post: 
+          Type: Api
+          Properties: 
+            RestApiId: !Ref RestApi 
+            Path: /
+            Method: POST
 
-
-  createCustomerLambdaPermissionForAPI:
-    Type: AWS::Lambda::Permission
-    # DependsOn: createCustomerLambdaFunction
-    Properties:
-      Action: lambda:InvokeFunction
-      FunctionName:
-        Ref: createCustomerLambdaFunction
-      Principal: apigateway.amazonaws.com
-  
+  RestApi: 
+    Type: AWS::Serverless::Api
+    Properties: 
+      Name: !Sub ${UniqueName}-customer
+      StageName : !Ref Environment
+      DefinitionBody:
+        Fn::Transform:
+          Name: AWS::Include
+          Parameters:
+            Location:  's3://mwdet-ecom-18-pipeline-artifacts/swagger.yaml'
+              # Fn::Join: 
+              #   - ''
+              #   - -'s3://'
+              #     - 'mwdet-ecom-18'
+              #     - '-pipeline-artifacts'
+              #     - '/swagger1.yaml'
+                # !sub s3://${UniqueName}-pipeline-artifacts/swagger.yaml

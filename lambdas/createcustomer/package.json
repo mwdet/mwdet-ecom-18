@@ -1,5 +1,5 @@
 {
-	"name": "@ecom/get-account",
+	"name": "@ecom/create-customer",
 	"version": "0.1.0",
 	"main": "index.js",
 	"private": true,
