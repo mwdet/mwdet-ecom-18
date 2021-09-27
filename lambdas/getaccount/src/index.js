@@ -1,71 +1,39 @@
 
 const AWS = require("aws-sdk");
 
-const dynamo = new AWS.DynamoDB.DocumentClient();
+const docclient = new AWS.DynamoDB.DocumentClient();
 
-exports.handler = async (event, context) => {
-  let body;
+ 
+   exports.handler = async (event,context) => {
+     console.log("Inside handler")
+    let body;
   let statusCode = 200;
-  console.log(event)
-  console.log("hello world")
+  const TableName=process.env.TABLE_NAME;
   const headers = {
     "Content-Type": "application/json"
   };
-
-  try {
-    switch (event.routeKey) {
-      case "DELETE /items/{id}":
-        await dynamo
-          .delete({
-            TableName: "hari-http-crud-tutorial-items",
-            Key: {
-              id: event.pathParameters.id
-            }
-          })
-          .promise();
-        body = `Deleted item ${event.pathParameters.id}`;
-        break;
-      case "GET /items/{id}":
-        body = await dynamo
-          .get({
-            TableName: "http-crud-tutorial-items",
-            Key: {
-              id: event.pathParameters.id
-            }
-          })
-          .promise();
-        break;
-      case "GET /items":
-        body = await dynamo.scan({ TableName: "http-crud-tutorial-items" }).promise();
-        break;
-      case "PUT /items":
-        let requestJSON = JSON.parse(event.body);
-        await dynamo
-          .put({
-            TableName: "http-crud-tutorial-items",
+ console.log("after handler")
+    try {
+      console.log("Inside try: "+JSON.stringify(event))
+        await docclient.put({
+            TableName: TableName,
             Item: {
-              id: requestJSON.id,
-              price: requestJSON.price,
-              name: requestJSON.name
+              id: event.body.id,
+              price: event.body.price,
+              name: event.body.name
             }
           })
           .promise();
-        body = `Put item ${requestJSON.id}`;
-        break;
-      default:
-        throw new Error(`Unsupported route: "${event.routeKey}"`);
+        body = `Put item ${event.body.id}`;
     }
-  } catch (err) {
+    catch(err) {
     statusCode = 400;
     body = err.message;
-  } finally {
-    body = JSON.stringify(body);
-  }
-
-  return {
+      
+    }
+   return {
     statusCode,
     body,
     headers
   };
 };
-
