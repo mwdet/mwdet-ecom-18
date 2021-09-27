@@ -1,0 +1,39 @@
+{
+	"name": "@ecom/get-account",
+	"version": "0.1.0",
+	"main": "index.js",
+	"private": true,
+	"scripts": {
+	  "build": "babel ./src -d dist --ignore **/*.test.js,**/__test__/*.js",
+	  "lint": "eslint --fix ./src",
+	  "lint.ci": "eslint ./src",
+	  "mutate": "stryker run",
+	  "precommit": "yarn audit && yarn lint && yarn test",
+	  "test": "jest --config=jest.config.json"
+	},
+	"devDependencies": {
+	  "@babel/cli": "^7.13.16",
+	  "@babel/core": "^7.14.6",
+	  "@babel/node": "^7.14.7",
+	  "@babel/preset-env": "^7.14.7",
+	  "@stryker-mutator/babel-transpiler": "^4.0.0",
+	  "@stryker-mutator/core": "^4.6.0",
+	  "@stryker-mutator/javascript-mutator": "^4.0.0",
+	  "@stryker-mutator/jest-runner": "^4.6.0",
+	  "eslint": "^7.31.0",
+	  "eslint-config-prettier": "^8.3.0",
+	  "eslint-plugin-import": "^2.23.4",
+	  "eslint-plugin-node": "^11.1.0",
+	  "eslint-plugin-prettier": "^3.4.0",
+	  "jest": "^27.0.6",
+	  "jest-junit": "^12.2.0",
+	  "jest-sonar": "^0.2.12",
+	  "prettier": "^2.3.2",
+	  "uuid": "^8.3.2"
+	},
+	"dependencies": {
+	  "@aws-sdk/client-dynamodb": "^3.20.0",
+	  "luxon": "^2.0.1"
+	}
+  }
+  
