@@ -67,23 +67,4 @@ Resources:
       FunctionName:
         Ref: createCustomerLambdaFunction
       Principal: apigateway.amazonaws.com
-
-  # CustomerServicesAPI:
-  #   Type: AWS::Serverless::Api
-  #   DeletionPolicy: Retain
-  #   Properties:
-  #     DefinitionUri: "swagger.yaml"
-  #     StageName:
-  #       Ref: Environment
-
-# Outputs:
-#   CustomerServicesAPI:
-#     Description: Web API URI
-#     Value:
-#       Fn::Join:
-#       - ''
-#       - - https://
-#         - Ref: CustomerServicesAPI
-#         - .execute-api.
-#         - Ref: AWS::Region
-#         - .amazonaws.com
+  
