@@ -26,11 +26,11 @@ Please also list any relevant details for your test configuration
 - [ ] Version has been updated on the Dummy `package.json`
 
 #### PR Etiquette
-- [ ] My Pr title Starts with the JIRA ticket Number in the following format "[DRE-xx]"
+- [ ] My Pr title Starts with the JIRA ticket Number in the following format "[ECOM-xxx]"
 - [ ] I've added labels to my PR to describe the change.
 
 #### Housekeeping
-- [ ] I have rebased my branch against the main branch by running `git pull --rebase origin main`
+- [ ] I have rebased my branch against the main branch by running `git pull upstream main`
 
 #### Sanity
 - [ ] I have performed a self-review of my own code
