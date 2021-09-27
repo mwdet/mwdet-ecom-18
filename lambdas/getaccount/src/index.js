@@ -36,4 +36,9 @@ const docclient = new AWS.DynamoDB.DocumentClient();
     body,
     headers
   };
+<<<<<<< HEAD
 };
+=======
+};
+
+>>>>>>> c4223cb487381f30d61fbaee1bdba3084453237c
