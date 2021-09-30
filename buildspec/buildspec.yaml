@@ -63,7 +63,7 @@ phases:
 
       #     echo "Deploying the SAM Template"
       - sam deploy --template-file packaged-template.yml --stack-name ${RESOURCE_PREFIX}-createcustomer --capabilities CAPABILITY_IAM --no-fail-on-empty-changeset --parameter-overrides Environment=dev UniqueName=${RESOURCE_PREFIX}
-      - curl -X POST -H 'Content-type: application/json' --data '{"text":"your codebuild ${CODEBUILD_BUILD_ID} completed"}' https://hooks.slack.com/services/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
+      # - curl -X POST -H 'Content-type: application/json' --data '{"text":"your codebuild ${CODEBUILD_BUILD_ID} completed"}' https://hooks.slack.com/services/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
 
 
 artifacts:
