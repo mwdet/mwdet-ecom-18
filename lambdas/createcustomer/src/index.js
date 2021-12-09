@@ -3,7 +3,7 @@ const AWS = require("aws-sdk");
 
 const docclient = new AWS.DynamoDB.DocumentClient();
 
- 
+ // test 
    exports.handler = async (event,context) => {
      console.log("Inside handler")
      console.log(event)
